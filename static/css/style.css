@@ -1,0 +1,1110 @@
+/* Loading Screen Styles */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #041783, #000c66);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Wrapper for both canvas and text */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers both horizontally */
+    justify-content: center;
+    text-align: center;
+}
+
+/* Canvas styling */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* centers everything vertically */
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+#loadingCanvas {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin-bottom: 40px; /* spacing between canvas and text */
+    position: relative;
+    z-index: 2;
+}
+
+.loading-text {
+    position: relative;
+    z-index: 3;
+}
+
+.loading-text h2 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 300;
+    background: linear-gradient(45deg, #ff9800, #ff5722);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.loading-text p {
+    font-size: 1.2rem;
+    margin: 0 0 30px 0;
+    opacity: 0.8;
+}
+
+.loading-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ff9800;
+}
+
+/* Responsive adjustments for loading screen */
+@media (max-width: 768px) {
+    #loadingCanvas {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .loading-text h2 {
+        font-size: 2rem;
+    }
+    
+    .loading-text p {
+        font-size: 1rem;
+    }
+    
+    .progress-bar {
+        width: 250px;
+    }
+}
+
+canvas {
+    display: block; /* Remove any extra spacing */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Ensure canvas blends with background */
+    z-index: 0; /* Same level as background layers for blending */
+    mix-blend-mode: normal; /* Allow Rive to handle internal blending */
+}
+
+body {
+
+    margin: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+    background: linear-gradient(135deg, #041783, #000c66);
+}
+
+.water-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    /* Match loading screen gradient */
+    background: linear-gradient(135deg, #041783, #000c66);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    perspective: 1000px;
+    /* Create stacking context for blending */ 
+    isolation: isolate;
+}
+
+.water-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; 
+    opacity: 0.6; 
+    will-change: transform, opacity; 
+}
+
+.layer-1 {
+    
+    background-size: 200px; 
+    animation: wave-motion-1 20s ease-in-out infinite alternate;
+    filter: blur(8px);
+    opacity: 0.5;
+}
+
+.layer-2 {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 60%);
+    animation: wave-motion-2 18s linear infinite;
+    filter: blur(5px);
+    opacity: 0.7;
+    transform: translateZ(-50px); 
+}
+
+.layer-3 {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    animation: wave-motion-3 22s ease infinite alternate-reverse;
+    filter: blur(6px);
+    opacity: 0.6;
+    transform: translateZ(-100px); 
+}
+
+.water-highlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--highlight-x, 50%) var(--highlight-y, 50%), rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%);
+    mix-blend-mode: screen;
+    opacity: var(--highlight-opacity, 0.7); 
+    will-change: transform, opacity;
+}
+
+.content {
+    position: relative;
+    z-index: 2; /* Above canvas and particles */
+    padding: 50px;
+    pointer-events: none; 
+}
+
+
+.particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1; /* Above canvas to ensure particles show */
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-fade-out 1s ease-out forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes wave-motion-1 {
+    0% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
+    50% { transform: scale(1.03, 0.97) translate(30px, 15px) rotate(1deg); }
+    100% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
+}
+
+@keyframes wave-motion-2 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(50px, 20px) rotate(2deg); }
+}
+
+@keyframes wave-motion-3 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-40px, -15px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes particle-fade-out {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--particle-end-x), var(--particle-end-y)) scale(0.2); opacity: 0; }
+}
+
+/* Chat Interface Styles */
+.chat-container {
+    position: relative; /* Change to relative positioning */
+    /* Remove bottom and right, as it's now controlled by parent */
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+}
+
+.chat-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: white;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.chat-button:hover {
+    transform: scale(1.1);
+}
+
+.chat-window {
+    position: absolute;
+    bottom: 0px; /* Align with the bottom of the chat button */
+    left: 70px; /* Position to the right of the chat button (60px button width + 10px margin) */
+    width: 525px;
+    height: 750px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.chat-header {
+    padding: 22px;
+    background-color: #1a308b;
+    color: white;
+    font-weight: 600;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.close-button:hover {
+    transform: scale(1.1);
+}
+
+.close-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 24px;
+    overflow-y: auto;
+    font-size: 1.2em;
+}
+
+.message {
+    margin-bottom: 16px;
+    padding: 14px 20px;
+    border-radius: 18px;
+    max-width: 80%;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.user-message {
+    background-color: #1a308b;
+    color: white;
+    margin-left: auto;
+}
+
+.bot-message {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.chat-input {
+    display: flex;
+    padding: 18px;
+    border-top: 1px solid #eee;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: 14px 18px;
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    margin-right: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2em;
+}
+
+.chat-input button {
+    padding: 12px 28px;
+    background-color: #1a308b;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.chat-input button:hover {
+    background-color: #1a308b;
+}
+
+/* Additional styles for loading state */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #1a308b;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Slide Modal Styles */
+.slide-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+.slide-modal-overlay.active {
+    display: flex;
+}
+.slide-modal {
+    background: #111;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    position: relative;
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.slide-modal iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 16px;
+    background: #111;
+}
+.slide-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+.slide-modal-close:hover {
+    transform: scale(1.2);
+}
+
+.video-btn-container {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+}
+
+.video-btn {
+    padding: 12px 28px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+.video-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.video-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 2100;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-modal {
+    position: relative;
+    width: 80vw;
+    max-width: 1120px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.volume-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 5;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.volume-btn.muted {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>');
+}
+
+.volume-btn.unmuted {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.28 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>');
+}
+
+.slide-modal-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e84824; /* Blue color for contact button */
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s, background 0.2s;
+}
+.slide-modal-btn:hover {
+    transform: scale(1.1);
+    background: #e65100;
+}
+
+.slide-btn-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between button and text */
+}
+
+.slide-btn-text {
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+   
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Contact Button Container */
+.contact-btn-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Removed margin-left as it will be handled by gap in .bottom-buttons-wrapper */
+}
+
+.contact-modal-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #007bff; /* Blue color for contact button */
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s, background 0.2s;
+}
+
+.contact-modal-btn:hover {
+    transform: scale(1.1);
+    background: #0056b3;
+}
+
+.contact-btn-text {
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+   
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* New wrapper for both buttons */
+.bottom-buttons-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Changed from right to left */
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    align-items: center; /* Align items horizontally in the center of the row */
+    gap: 15px; /* Space between buttons */
+    z-index: 1000;
+}
+
+/* Contact Modal Styles */
+.contact-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2100; /* Higher z-index than slide modal */
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-modal-overlay.active {
+    display: flex;
+}
+
+.contact-modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 1000px; /* Increased max-width */
+    width: 90%; /* Responsive width */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow-y: auto; /* Enable scrolling for content */
+    max-height: 90vh; /* Limit modal height */
+}
+
+.contact-form-content {
+    display: flex;
+    flex-direction: row; /* Default to row for larger screens */
+    gap: 20px;
+}
+
+.contact-left-panel {
+    flex: 1;
+    background-color: #f0f2f5; /* Light background for the left panel */
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.contact-right-panel {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .contact-modal {
+        width: 95%;
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .contact-form-content {
+        flex-direction: column; /* Stack vertically on smaller screens */
+    }
+
+    .contact-left-panel, .contact-right-panel {
+        flex: none; /* Remove flex-grow on mobile */
+        width: 100%; /* Full width on mobile */
+        padding: 15px;
+    }
+
+    .contact-left-panel {
+        margin-bottom: 20px;
+    }
+
+    .form-header-content .form-article {
+        font-size: 14px;
+    }
+
+    .contact-right-panel h2 {
+        font-size: 24px;
+    }
+
+    .contact-right-panel .form-group label {
+        font-size: 14px;
+    }
+
+    .contact-right-panel .form-group input,
+    .contact-right-panel .form-group select,
+    .contact-right-panel .form-group textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .contact-right-panel button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Ensure the modal is centered vertically and horizontally */
+.contact-modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dim background */
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.contact-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Contact Form Custom Styles --- */
+.form-group {
+    margin-bottom: 24px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: #222;
+    text-align: left;
+    font-size: 1.08em;
+}
+.form-group label span {
+    color: #ff3c00;
+    margin-left: 2px;
+    font-weight: 700;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.08em;
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #222;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #ff9800;
+    outline: none;
+}
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #fff url('data:image/svg+xml;utf8,<svg fill="%23ff9800" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 16px center/18px 18px;
+    padding-right: 40px;
+    border: 1.5px solid #ddd;
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+.form-group input[type="checkbox"] {
+    accent-color: #ff9800;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.form-group label[for="privacy"] {
+    display: inline;
+    font-weight: 400;
+    color: #888;
+    font-size: 0.98em;
+    vertical-align: middle;
+}
+.form-group a {
+    color: #007bff;
+    font-size: 0.98em;
+    text-decoration: underline;
+    margin-left: 2px;
+}
+.contact-modal form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(255,152,0,0.08);
+}
+.contact-modal form button[type="submit"]:hover {
+    background: linear-gradient(90deg, #ff5722, #ff9800);
+}
+
+/* Remove default checkbox styling for privacy if needed */
+.form-group input[type="checkbox"]:focus {
+    outline: 2px solid #ff9800;
+}
+
+/* Optional: style the privacy info link for better visibility */
+.form-group a {
+    color: #007bff;
+    font-size: 0.98em;
+    text-decoration: underline;
+    margin-left: 2px;
+}
+
+
+@media (max-width: 768px) {
+    .bottom-buttons-wrapper {
+        bottom: 10px;
+        left: 10px; /* Adjusted for mobile */
+        gap: 10px; /* Slightly increase gap for mobile */
+    }
+
+    .chat-button,
+    .slide-modal-btn,
+    .contact-modal-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem; /* Smaller icon size for all buttons */
+    }
+
+    .chat-button img {
+        width: 80%; /* Adjust logo size if needed */
+        height: 80%;
+    }
+
+    .chat-window {
+        width: 300px; /* Smaller chat window */
+        height: 450px;
+        left: 55px; /* Adjust position for smaller button (45px button width + 10px margin) */
+        bottom: 0px;
+    }
+
+    .chat-header {
+        padding: 15px;
+        font-size: 1.2em;
+    }
+
+    .chat-messages {
+        padding: 15px;
+        font-size: 1em;
+    }
+
+    .chat-input {
+        padding: 10px;
+    }
+
+    .chat-input input {
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+
+    .chat-input button {
+        padding: 8px 18px;
+        font-size: 1em;
+    }
+
+    .close-button svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+#logoImage.form-rive {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+.form-article {
+    font-size: 1em;
+    color: #000;
+    line-height: 1.5;
+    max-width: none;
+    margin-top: 100px;
+    padding: 0;
+}
+
+.contact-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.contact-modal-close:hover {
+    transform: scale(1.2);
+}
+
+/* Rive Slide Modal */
+.rive-slide-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    z-index: 2200;
+    align-items: center;
+    justify-content: center;
+}
+
+.rive-slide-overlay.active {
+    display: flex;
+}
+
+.rive-slide-modal {
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* Stack canvas and buttons vertically */
+    align-items: center;
+    justify-content: center;
+}
+
+#riveSlideCanvas {
+    display: block;
+    width: 1920px;
+    height: 1080px;
+    max-width: 95vw;
+    max-height: 85vh;
+    position: relative; /* Override global canvas fixed positioning */
+    z-index: 1;
+}
+
+.rive-slide-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+/* Buttons overlay inside Rive slide modal */
+.rive-video-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 16px 0 8px 0; /* space below canvas */
+}
+
+.rive-video-button {
+    padding: 12px 20px;
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.rive-video-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* Local Video Modal for playing local files */
+.local-video-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 2300;
+    align-items: center;
+    justify-content: center;
+}
+
+.local-video-modal-overlay.active {
+    display: flex;
+}
+
+.local-video-modal {
+    position: relative;
+    width: 90vw;
+    max-width: 1200px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.local-video-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.local-video-element {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+}
