@@ -416,7 +416,7 @@ document.getElementById('contactForm').addEventListener('submit', function (even
         created_at: new Date().toISOString()
     };
 
-    fetch('/api/save-contact', {
+    fetch('/api/save_contact', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
